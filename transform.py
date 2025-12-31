@@ -3,6 +3,7 @@ from openpyxl.styles import Font, Alignment
 import os
 from dotenv import load_dotenv
 import yagmail
+from utils import clean_schedule
 
 load_dotenv()
 
@@ -16,7 +17,7 @@ def export_excel(data_master):
 
   wb = Workbook()
   ws = wb.active
-  ws.title = "Resumen general 2025"
+  ws.title = "Sheet1"
 
   headers_master = ["Apellido PAC MAY", "Nombre/s", "DNI", "TIPO", "Fecha Nacimiento", "Curso/Grado", "Turno solicitado", 
                         "Acrónimo OS|PP", "AS", "Nro. de Afiliado", "Nombre de la Institución", "Horario_fx", 
@@ -24,11 +25,15 @@ def export_excel(data_master):
   
   ws.append(headers_master)
 
+  idx_horario = headers_master.index("Horario_fx")
+
   for cell in ws[1]:
     cell.font = Font(bold=True)
     cell.alignment = Alignment(horizontal='center')
 
   for row in data_master:
+    row = list(row)
+    row[idx_horario] = clean_schedule(row[idx_horario])
     ws.append(row)
 
   nombre_archivo = "Datos - Planilla Maestra.xlsx"
@@ -41,7 +46,7 @@ def send_mail(activates, file_name):
   body = f"""Buenos días,
 
   Se informan las prestaciones activadas recientemente:
-  
+
   """
 
   for a in activates:
