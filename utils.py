@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+import re
 
 def get_fech_range():
   today = date.today()
@@ -14,8 +15,6 @@ def get_fech_range():
     end_date = today - timedelta(days=1)
 
   return start_date, end_date
-
-import re
 
 def clean_schedule(text):
     if not text:
@@ -40,4 +39,20 @@ def clean_schedule(text):
         return rangos[-1].strip()  # último rango
     else:
         return text.strip()
+    
+def complete_schedule(turn,hours):
+
+  turn = turn.lower().strip()
+
+  hours = '13 a 17'
+
+  if turn == 'mañana':
+      hours = '8 a 12'
+
+  if turn == 'completo':
+    hours = ''
+
+  return hours
+
+
 

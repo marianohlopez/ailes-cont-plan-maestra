@@ -3,7 +3,7 @@ from openpyxl.styles import Font, Alignment
 import os
 from dotenv import load_dotenv
 import yagmail
-from utils import clean_schedule
+from utils import clean_schedule, complete_schedule
 
 load_dotenv()
 
@@ -26,6 +26,7 @@ def export_excel(data_master):
   ws.append(headers_master)
 
   idx_horario = headers_master.index("Horario_fx")
+  idx_turno = headers_master.index("Turno solicitado")
 
   for cell in ws[1]:
     cell.font = Font(bold=True)
@@ -33,7 +34,8 @@ def export_excel(data_master):
 
   for row in data_master:
     row = list(row)
-    row[idx_horario] = clean_schedule(row[idx_horario])
+    #row[idx_horario] = clean_schedule(row[idx_horario])
+    row[idx_horario] = complete_schedule(row[idx_turno],row[idx_horario])
     ws.append(row)
 
   nombre_archivo = "Datos - Planilla Maestra.xlsx"
