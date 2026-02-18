@@ -52,8 +52,8 @@ def send_mail(activates, file_name):
   """
 
   for a in activates:
-    lst_name, name, type, os_name, asis = a
-    body += f"- {lst_name}, {name} | TIPO: {type} | OS: {os_name} | AS: {asis}\n"
+    lst_name, name, type, os_name, asis, month_aut = a
+    body += f"- {lst_name}, {name} | TIPO: {type} | OS: {os_name} | AS: {asis} | AUT. DESDE: {month_aut}\n"
 
   body += "\nSaludos,\nMariano López - Ailes Inclusión."
   try:

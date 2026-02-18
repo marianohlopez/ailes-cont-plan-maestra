@@ -29,13 +29,17 @@ def extract_master(cursor):
   return cursor.fetchall()
 
 def extract_activate(cursor, start_date, end_date):
+
+  cursor.execute("SET lc_time_names = 'es_ES';")
+
   query = """
     SELECT 
       p.alumno_apellido, 
       p.alumno_nombre,
       p.prestipo_nombre_corto, 
       o.os_nombre, 
-      o.os_campo1 AS asis
+      o.os_campo1 AS asis,
+      MONTHNAME(p.prestacion_fec_aut_OS_desde) AS mes_aut
     FROM v_prestaciones p 
     LEFT JOIN v_os o
       ON p.prestacion_os = o.os_id
